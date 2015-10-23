@@ -1,0 +1,165 @@
+<!doctype html>
+    <html>
+        <head>
+            <title>Russian Square</title>
+            <style>
+              .small{background-color: red;width: 18px;height:18px;float: left;z-index: 3;border: 1px solid black;}
+                #inner {
+                    position: absolute;left:50%;top:50%;width: 240px;height:400px;
+                    margin-left: -120px;margin-top: -200px;background-color: blue;z-index: 2;
+                    }
+                
+            </style>
+        </head>
+        <body>
+               
+                    <div id="inner"></div>
+               
+        </body>
+        <script>
+            var down=0;
+            var end=1;
+            var gameover=0;
+            var movePart=[0,0,0,0];
+            var picCode=10;
+           function createDiv()//初始化图片
+           {
+            for(var i=0;i<240;i++)
+                {
+                    var newDiv=document.createElement("div");
+                    newDiv.className="small";
+                    newDiv.id="id"+i;
+                    var inner=document.getElementById("inner");
+                    inner.appendChild(newDiv);
+                }
+
+            }
+            createDiv();
+            function initAll() {
+            for(var i=0;i<240;i++)
+                {
+                    
+                    var all=document.getElementById("id"+i);
+                    all.style.backgroundColor="red";
+                }
+                end=1;gameover=0;movePart=[0,0,0,0];picCode=10;
+                //code
+            }
+            function createDown() {
+                var random=Math.floor(Math.random()*7);
+                picCode=random;
+                switch(picCode)
+                {
+                    case 0:
+                        movePart=[5,6,7,8];
+                        break;
+                    case 1:
+                        movePart=[5,6,7,17];
+                        break;
+                    case 2:
+                        movePart=[5,6,7,18];
+                        break;
+                    case 3:
+                        movePart=[5,6,7,19];
+                        break;
+                    case 4:
+                        movePart=[5,6,17,18];
+                        break;
+                    case 5:
+                        movePart=[5,6,18,19];
+                        break;
+                    case 6:
+                        movePart=[6,7,18,17];
+                        break;
+                    
+                }//code
+            }
+            function init() {
+                end=0;//not bottom
+                
+                for(var k=0;k<4;k++){
+                    if(document.getElementById("id"+movePart[k]).style.backgroundColor=="white")
+                    {end=1;gameover=1;alert("Game Over");clearInterval(cnt);return;}
+                }
+                for (var j=0;j<4;j++) {
+                    document.getElementById("id"+movePart[j]).style.backgroundColor="white";//code
+                }
+                
+                //code
+            }
+            function move() {
+                if(end==1)
+                {
+                    createDown();
+                    init(movePart);
+                }
+                //这里需要处理一个坑，下降的方块的判断是否重叠
+                //var flag=document.getElementById("id"+(movePart[k]+12))!
+                var arr=[];
+                for(var i=0;i<4;i++)
+                {var next=movePart[i]+12;
+                    if (next!=movePart[0]&&next!=movePart[1]&&next!=movePart[2]&&next!=movePart[3]) {
+                        arr.push(movePart[i]);//code
+                    }
+                }
+                var judge=0;
+                for(var i=0;i<arr.length;i++){
+                    if (arr[i]<228&&document.getElementById("id"+(arr[i]+12)).style.backgroundColor=="white") {
+                    judge=1;break;//code
+                    }
+                }
+                
+                
+                
+                //
+                for(var k=0;k<4;k++){var temp=document.getElementById("id"+(movePart[k]+12));
+                
+                    if(judge==1||(movePart[k]+12)>239)
+                    {end=1;return;}
+                }
+                if (end==0) {
+                    for (var j=0;j<4;j++) {
+                    document.getElementById("id"+movePart[j]).style.backgroundColor="red";//code
+                    movePart[j]+=12;              
+                }
+                for (var j=0;j<4;j++) {
+                    document.getElementById("id"+movePart[j]).style.backgroundColor="white";//code                   
+                }//code
+                }
+                
+                //code
+            }
+            function flow()
+            {
+                
+            }
+            var cnt=setInterval("move()",400);
+            /*
+            function line() {
+                initAll();
+                //createDown();
+                //init(movePart);
+                
+                
+                while(gameover==0){
+                    createDown();
+                    init(movePart);
+                    move(movePart);
+                    while(end==0){
+                        var cnt=setInterval("move(movePart)",1000);
+                    }
+                    
+                    
+                    }
+                    
+                }//code
+            */
+                
+                
+                
+                //code
+            //line();
+            //var count=setInterval(,1000)
+            
+        </script>
+    </html>
